@@ -11,7 +11,7 @@ export function Board() {
         cells.push(
           <div
             key={key}
-            className={`w-full h-full ${get_Cell_Color(row, col)}`}
+            className={`w-full h-full ${get_Cell_Color(row, col)} hover:bg-gray-400`}
           ></div>,
         );
       }
