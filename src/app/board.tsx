@@ -1,8 +1,28 @@
+interface PieceProps {
+  source: string;
+  x: number;
+  y: number;
+}
 export function Board() {
   const board_size = 8;
   const get_Cell_Color = (row: number, column: number) =>
     (row + column) % 2 == 0 ? "bg-white" : "bg-black";
 
+  const pieces = () => {
+    const pieces = [];
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        (i + j) % 2 == 0
+          ? pieces.push(
+              Piece({ source: "/pieces/black piece.png", x: i, y: j }),
+            )
+          : pieces.push(
+              Piece({ source: "/pieces/white piece.png", x: i, y: j }),
+            );
+      }
+    }
+    return pieces;
+  };
   const cells = () => {
     const cells = [];
     for (let row = 0; row < board_size; row++) {
@@ -23,6 +43,22 @@ export function Board() {
       className={`grid grid-cols-8 w-96 h-96 border-4 border-black position: relative,`}
     >
       {cells()}
+      {pieces()}
     </div>
+  );
+}
+
+export function Piece({ source, x, y }: PieceProps) {
+  return (
+    <img
+      key={x + y * 8}
+      src={source}
+      className={`absolute w4 h4 cursor-pointer hover:scale-10 transition-transform duration-200`}
+      style={{
+        width: 45,
+        transform: `translate(${x * 48}px,${y * 48}px)`,
+      }}
+      alt="piece"
+    ></img>
   );
 }
