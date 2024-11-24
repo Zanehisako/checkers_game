@@ -19,7 +19,9 @@ export function Board() {
     return cells;
   };
   return (
-    <div className={`grid grid-cols-8 w-96 h-96 border-4 border-black`}>
+    <div
+      className={`grid grid-cols-8 w-96 h-96 border-4 border-black position: relative,`}
+    >
       {cells()}
     </div>
   );
