@@ -8,17 +8,22 @@ export function Board() {
   const get_Cell_Color = (row: number, column: number) =>
     (row + column) % 2 == 0 ? "bg-white" : "bg-black";
 
-  const pieces = () => {
+  const black_pieces = () => {
     const pieces = [];
     for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        (i + j) % 2 == 0
-          ? pieces.push(
-              Piece({ source: "/pieces/black piece.png", x: i, y: j }),
-            )
-          : pieces.push(
-              Piece({ source: "/pieces/white piece.png", x: i, y: j }),
-            );
+      for (let j = 5; j < 8; j++) {
+        if ((i + j) % 2 == 0)
+          pieces.push(Piece({ source: "/pieces/black piece.png", x: i, y: j }));
+      }
+    }
+    return pieces;
+  };
+  const white_pieces = () => {
+    const pieces = [];
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 3; j++) {
+        if ((i + j) % 2 != 0)
+          pieces.push(Piece({ source: "/pieces/white piece.png", x: i, y: j }));
       }
     }
     return pieces;
@@ -43,7 +48,8 @@ export function Board() {
       className={`grid grid-cols-8 w-96 h-96 border-4 border-black position: relative,`}
     >
       {cells()}
-      {pieces()}
+      {black_pieces()}
+      {white_pieces()}
     </div>
   );
 }
