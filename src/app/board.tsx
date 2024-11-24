@@ -16,7 +16,7 @@ export function Board() {
     const pieces = [];
     for (let i = 0; i < 8; i++) {
       for (let j = 5; j < 8; j++) {
-        if ((i + j) % 2 == 0)
+        if ((i + j) % 2 != 0)
           pieces.push(
             Piece({ type: 0, source: "/pieces/black piece.png", x: i, y: j }),
           );
