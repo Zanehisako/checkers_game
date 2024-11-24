@@ -66,12 +66,10 @@ export function Piece({ type, source, x, y }: PieceProps) {
   const [position_x, setX] = useState(x);
   const [position_y, setY] = useState(y);
   const [mouse_x, setMouseX] = useState(0);
-  const [mouse_y, setMouseY] = useState(0);
 
   const handleMouseDown = (event: React.MouseEvent) => {
-    const { clientX, clientY } = event;
+    const { clientX } = event;
     setMouseX(clientX);
-    setMouseY(clientY);
   };
 
   const handleMouseUp = (event: React.MouseEvent) => {
