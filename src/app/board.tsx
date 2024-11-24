@@ -1,4 +1,8 @@
+"use client";
+import React, { useState } from "react";
+
 interface PieceProps {
+  type: number;
   source: string;
   x: number;
   y: number;
@@ -13,7 +17,9 @@ export function Board() {
     for (let i = 0; i < 8; i++) {
       for (let j = 5; j < 8; j++) {
         if ((i + j) % 2 == 0)
-          pieces.push(Piece({ source: "/pieces/black piece.png", x: i, y: j }));
+          pieces.push(
+            Piece({ type: 0, source: "/pieces/black piece.png", x: i, y: j }),
+          );
       }
     }
     return pieces;
@@ -23,7 +29,9 @@ export function Board() {
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 3; j++) {
         if ((i + j) % 2 != 0)
-          pieces.push(Piece({ source: "/pieces/white piece.png", x: i, y: j }));
+          pieces.push(
+            Piece({ type: 1, source: "/pieces/white piece.png", x: i, y: j }),
+          );
       }
     }
     return pieces;
@@ -36,7 +44,7 @@ export function Board() {
         cells.push(
           <div
             key={key}
-            className={`w-full h-full ${get_Cell_Color(row, col)} hover:bg-gray-400`}
+            className={`w-full h-full ${get_Cell_Color(row, col)} `}
           ></div>,
         );
       }
@@ -54,7 +62,31 @@ export function Board() {
   );
 }
 
-export function Piece({ source, x, y }: PieceProps) {
+export function Piece({ type, source, x, y }: PieceProps) {
+  const [position_x, setX] = useState(x);
+  const [position_y, setY] = useState(y);
+  const [mouse_x, setMouseX] = useState(0);
+  const [mouse_y, setMouseY] = useState(0);
+
+  const handleMouseDown = (event: React.MouseEvent) => {
+    const { clientX, clientY } = event;
+    setMouseX(clientX);
+    setMouseY(clientY);
+  };
+
+  const handleMouseUp = (event: React.MouseEvent) => {
+    const { clientX, clientY } = event;
+    console.log("mouse X:", clientX);
+    console.log("mouse Y:", clientY);
+    if (clientX - mouse_x > 0) {
+      setX(position_x + 1);
+      type == 0 ? setY(position_y - 1) : setY(position_y + 1);
+    } else {
+      setX(position_x - 1);
+      type == 0 ? setY(position_y - 1) : setY(position_y + 1);
+    }
+    console.log(position_x);
+  };
   return (
     <img
       key={x + y * 8}
@@ -62,9 +94,11 @@ export function Piece({ source, x, y }: PieceProps) {
       className={`absolute w4 h4 cursor-pointer hover:scale-10 transition-transform duration-200`}
       style={{
         width: 45,
-        transform: `translate(${x * 48}px,${y * 48}px)`,
+        transform: `translate(${position_x * 48}px,${position_y * 48}px)`,
       }}
       alt="piece"
+      onMouseDown={handleMouseDown}
+      onDragEnd={handleMouseUp}
     ></img>
   );
 }
