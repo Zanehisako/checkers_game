@@ -1,24 +1,25 @@
 "use client";
 import React, { useState } from "react";
+import { Piece } from "./piece";
+import { Cell } from "./cells";
 
-interface PieceProps {
-  type: number;
-  source: string;
-  x: number;
-  y: number;
-}
 export function Board() {
+  const [pieceSelected, SetPiece] = useState(0);
   const board_size = 8;
-  const get_Cell_Color = (row: number, column: number) =>
-    (row + column) % 2 == 0 ? "bg-white" : "bg-black";
-
   const black_pieces = () => {
     const pieces = [];
     for (let i = 0; i < 8; i++) {
       for (let j = 5; j < 8; j++) {
         if ((i + j) % 2 != 0)
           pieces.push(
-            Piece({ type: 0, source: "/pieces/black piece.png", x: i, y: j }),
+            Piece({
+              isSelected: false,
+              type: 0,
+              source: "/pieces/black piece.png",
+              x: i,
+              y: j,
+              onSelect: SetPiece,
+            }),
           );
       }
     }
@@ -30,7 +31,14 @@ export function Board() {
       for (let j = 0; j < 3; j++) {
         if ((i + j) % 2 != 0)
           pieces.push(
-            Piece({ type: 1, source: "/pieces/white piece.png", x: i, y: j }),
+            Piece({
+              isSelected: false,
+              type: 1,
+              source: "/pieces/white piece.png",
+              x: i,
+              y: j,
+              onSelect: SetPiece,
+            }),
           );
       }
     }
@@ -42,10 +50,11 @@ export function Board() {
       for (let col = 0; col < board_size; col++) {
         const key: number = col + row * board_size;
         cells.push(
-          <div
-            key={key}
-            className={`w-full h-full ${get_Cell_Color(row, col)} `}
-          ></div>,
+          Cell({
+            key: key,
+            isSelected: (row + col) % 2 == 0 ? true : false,
+            type: (row + col) % 2 == 0 ? 1 : 0,
+          }),
         );
       }
     }
@@ -59,44 +68,5 @@ export function Board() {
       {black_pieces()}
       {white_pieces()}
     </div>
-  );
-}
-
-export function Piece({ type, source, x, y }: PieceProps) {
-  const [position_x, setX] = useState(x);
-  const [position_y, setY] = useState(y);
-  const [mouse_x, setMouseX] = useState(0);
-
-  const handleMouseDown = (event: React.MouseEvent) => {
-    const { clientX } = event;
-    setMouseX(clientX);
-  };
-
-  const handleMouseUp = (event: React.MouseEvent) => {
-    const { clientX, clientY } = event;
-    console.log("mouse X:", clientX);
-    console.log("mouse Y:", clientY);
-    if (clientX - mouse_x > 0) {
-      setX(position_x + 1);
-      type == 0 ? setY(position_y - 1) : setY(position_y + 1);
-    } else {
-      setX(position_x - 1);
-      type == 0 ? setY(position_y - 1) : setY(position_y + 1);
-    }
-    console.log(position_x);
-  };
-  return (
-    <img
-      key={x + y * 8}
-      src={source}
-      className={`absolute w4 h4 cursor-pointer hover:scale-10 transition-transform duration-200`}
-      style={{
-        width: 45,
-        transform: `translate(${position_x * 48}px,${position_y * 48}px)`,
-      }}
-      alt="piece"
-      onMouseDown={handleMouseDown}
-      onDragEnd={handleMouseUp}
-    ></img>
   );
 }
