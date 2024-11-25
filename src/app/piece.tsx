@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface PieceProps {
-  isSelected: boolean;
+  Selectedindex: number;
   type: number;
   source: string;
   x: number;
@@ -10,7 +10,7 @@ interface PieceProps {
   onSelect: React.Dispatch<React.SetStateAction<number>>;
 }
 export function Piece({
-  isSelected,
+  Selectedindex,
   type,
   source,
   x,
@@ -51,7 +51,7 @@ export function Piece({
         transform: `translate(${position_x * 48}px,${position_y * 48}px)`,
       }}
       alt="piece"
-      onMouseUp={() => onSelect}
+      onClick={() => onSelect((position_y + 1) * 8 - position_x + 1)}
       onMouseDown={handleMouseDown}
       onDragEnd={handleMouseUp}
     ></Image>

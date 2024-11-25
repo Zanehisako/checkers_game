@@ -4,7 +4,7 @@ import { Piece } from "./piece";
 import { Cell } from "./cells";
 
 export function Board() {
-  const [pieceSelected, SetPiece] = useState(0);
+  const [cellIndex, SetCell] = useState(0);
   const board_size = 8;
   const black_pieces = () => {
     const pieces = [];
@@ -13,12 +13,12 @@ export function Board() {
         if ((i + j) % 2 != 0)
           pieces.push(
             Piece({
-              isSelected: false,
+              Selectedindex: cellIndex,
               type: 0,
               source: "/pieces/black piece.png",
               x: i,
               y: j,
-              onSelect: SetPiece,
+              onSelect: SetCell,
             }),
           );
       }
@@ -32,12 +32,12 @@ export function Board() {
         if ((i + j) % 2 != 0)
           pieces.push(
             Piece({
-              isSelected: false,
+              Selectedindex: cellIndex,
               type: 1,
               source: "/pieces/white piece.png",
               x: i,
               y: j,
-              onSelect: SetPiece,
+              onSelect: SetCell,
             }),
           );
       }
@@ -52,7 +52,7 @@ export function Board() {
         cells.push(
           Cell({
             key: key,
-            isSelected: (row + col) % 2 == 0 ? true : false,
+            isSelected: cellIndex,
             type: (row + col) % 2 == 0 ? 1 : 0,
           }),
         );
@@ -60,6 +60,7 @@ export function Board() {
     }
     return cells;
   };
+  console.log("index of the board is:", cellIndex);
   return (
     <div
       className={`grid grid-cols-8 w-96 h-96 border-4 border-black position: relative,`}
