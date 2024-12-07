@@ -1,6 +1,6 @@
 interface cell {
   key: number;
-  isSelected: number;
+  isSelected: number[];
   type: number;
 }
 export function Cell({ key, isSelected, type }: cell) {
@@ -11,7 +11,7 @@ export function Cell({ key, isSelected, type }: cell) {
     <div
       key={key}
       className={
-        isSelected == key
+        isSelected[0] == key || isSelected[1] == key
           ? `w-full h-full  ${get_Cell_Color(type)} border-2 border-red-500`
           : `w-full h-full  ${get_Cell_Color(type)}`
       }

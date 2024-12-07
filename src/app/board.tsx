@@ -4,15 +4,17 @@ import { Piece } from "./piece";
 import { Cell } from "./cells";
 
 export function Board() {
-  const [cellIndex, SetCell] = useState(0);
+  const [cellIndex, SetCell] = useState([0, 0]);
   const board_size = 8;
   const black_pieces = () => {
     const pieces = [];
     for (let i = 0; i < 8; i++) {
       for (let j = 5; j < 8; j++) {
+        const index: number = i + j * board_size;
         if ((i + j) % 2 != 0)
           pieces.push(
             Piece({
+              index: index,
               Selectedindex: cellIndex,
               type: 0,
               source: "/pieces/black piece.png",
@@ -29,9 +31,11 @@ export function Board() {
     const pieces = [];
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 3; j++) {
+        const index: number = i + j * board_size;
         if ((i + j) % 2 != 0)
           pieces.push(
             Piece({
+              index: index,
               Selectedindex: cellIndex,
               type: 1,
               source: "/pieces/white piece.png",
@@ -60,7 +64,6 @@ export function Board() {
     }
     return cells;
   };
-  console.log("index of the board is:", cellIndex);
   return (
     <div
       className={`grid grid-cols-8 w-96 h-96 border-4 border-black position: relative,`}

@@ -2,14 +2,17 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface PieceProps {
-  Selectedindex: number;
+  index: number;
+  Selectedindex: number[];
   type: number;
   source: string;
   x: number;
   y: number;
-  onSelect: React.Dispatch<React.SetStateAction<number>>;
+  onSelect: React.Dispatch<React.SetStateAction<number[]>>;
 }
+
 export function Piece({
+  index,
   Selectedindex,
   type,
   source,
@@ -37,7 +40,7 @@ export function Piece({
       setX(position_x - 1);
       type == 0 ? setY(position_y - 1) : setY(position_y + 1);
     }
-    console.log(position_x);
+    console.log("piece index is :", index);
   };
   return (
     <Image
@@ -51,7 +54,9 @@ export function Piece({
         transform: `translate(${position_x * 48}px,${position_y * 48}px)`,
       }}
       alt="piece"
-      onClick={() => onSelect((position_y + 1) * 8 - position_x + 1)}
+      onClick={() =>
+        onSelect(type == 0 ? [index - 7, index - 9] : [index + 7, index + 9])
+      }
       onMouseDown={handleMouseDown}
       onDragEnd={handleMouseUp}
     ></Image>
