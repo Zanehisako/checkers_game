@@ -12,8 +12,8 @@ export function Cell({ key, isSelected, type }: cell) {
       key={key}
       className={
         isSelected[0] == key || isSelected[1] == key
-          ? `w-full h-full  ${get_Cell_Color(type)} border-2 border-red-500`
-          : `w-full h-full  ${get_Cell_Color(type)}`
+          ? `w-12 h-12 ${get_Cell_Color(type)} border-2 border-red-500 `
+          : `w-12 h-12 ${get_Cell_Color(type)}`
       }
     ></div>
   );
